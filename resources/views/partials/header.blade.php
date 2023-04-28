@@ -16,7 +16,7 @@
                         <a class="nav-link" href="{{ route('home') }}">{{ __('Головна') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('catalog') }}">{{ __('Каталог автомобілів') }}</a>
+                        <a class="nav-link" href="{{ route('car_store') }}">{{ __('Каталог автомобілів') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('contacts') }}">{{ __('Контакти') }}</a>
