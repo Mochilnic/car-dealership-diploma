@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="{{ asset('slick/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('slick/slick-theme.css') }}">
     <script src="{{ asset('slick/slick.min.js') }}" defer></script>
-    {{-- <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script> --}}
-    {{-- <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script> --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/slider.js') }}" defer></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -21,7 +19,6 @@
     @include('partials.header')
     <main>
         <h1>Ласкаво просимо в автосалон Lev Motors!</h1>
-        <p>Тут можна додати якийсь текст-опис...</p>
         <div class="slider">
             <div><img src="{{ asset('images/car1.jpg') }}" alt="Car 1"></div>
             <div><img src="{{ asset('images/car2.jpg') }}" alt="Car 2"></div>

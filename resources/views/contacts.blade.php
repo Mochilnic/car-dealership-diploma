@@ -16,7 +16,7 @@
     <main>
         <div class="container">
             <h1>Контакти</h1>
-            <!-- Вміст контактів -->
+            
         </div>
     </main>
     @include('partials.footer')

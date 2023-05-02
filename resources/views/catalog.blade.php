@@ -17,7 +17,6 @@
     <main>
         <div class="container">
             <h1>Каталог автомобілів</h1>
-            <!-- Вміст каталогу автомобілів -->
             <div class="row">
                 @foreach ($cars as $car)
                     <div class="col-md-4">
