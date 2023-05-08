@@ -22,7 +22,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        return view('car_create');
+        return view('admin.car_create');
     }
 
     /**
