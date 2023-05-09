@@ -220,6 +220,8 @@ class CarController extends Controller
             }
         }
 
+        $car->comments()->delete();
+        
         $car->delete();
 
         return redirect()->route('admin.cars_list')->with('success', 'Автомобіль видалений успішно');

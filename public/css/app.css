@@ -54,3 +54,32 @@ footer {
     text-align: center;
     padding: 1rem;
 }
+
+.auth-menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    margin: 5px 85px;
+    opacity: 90%;
+    
+}
+
+.dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    min-width: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-top: 5px;
+}
+.dropdown, .dropdown-menu.show{
+    border-radius: 7px;
+}

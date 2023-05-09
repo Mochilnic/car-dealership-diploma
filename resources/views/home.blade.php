@@ -16,6 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
+    
     @include('partials.header')
     <main>
         <h1>Ласкаво просимо в автосалон Lev Motors!</h1>

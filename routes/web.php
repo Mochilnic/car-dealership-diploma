@@ -6,16 +6,22 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\CommentController;
 
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
-Route::resource('cars', CarController::class)->middleware('auth');
+Route::resource('cars', CarController::class);
 Route::post('/cars', [CarController::class, 'store'])->name('car_store')->middleware(['auth', 'is_admin']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::resource('cars.comments', CommentController::class)->shallow()->middleware('auth');
+Route::post('/cars/{car}/comments', [CommentController::class, 'store'])->middleware('auth')->name('comments.store');
+Route::delete('/cars/{car}/comments/{comment}', [CommentController::class, 'destroy'])->middleware('auth')->name('comments.destroy');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
