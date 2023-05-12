@@ -6,6 +6,7 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 
 Route::get('/', [HomePageController::class, 'index'])->name('home');
@@ -27,6 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/chat', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat', [ChatController::class, 'message'])->name('chat.message');
 });
 
 Route::middleware(['auth', 'is_admin'])->group(function () {

@@ -50,13 +50,16 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">{{ __('Головна') }}</a>
+                        <a class="nav-link" href="{{ route('home') }}">Головна</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('car_store') }}">{{ __('Каталог автомобілів') }}</a>
+                        <a class="nav-link" href="{{ route('car_store') }}">Каталог автомобілів</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('contacts') }}">{{ __('Контакти') }}</a>
+                        <a class="nav-link" href="{{ route('contacts') }}">Контакти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('chat.show') }}">Центр підтримки</a>
                     </li>
                 </ul>
             </div>

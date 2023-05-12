@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,8 +16,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-    
+
     @include('partials.header')
     <main>
         <h1>Ласкаво просимо в автосалон Lev Motors!</h1>
@@ -27,6 +29,8 @@
             <div><img src="{{ asset('images/car4.jpg') }}" alt="Car 4"></div>
         </div>
     </main>
+    
     @include('partials.footer')
 </body>
+
 </html>

@@ -24,7 +24,6 @@ div.logo img {
     width: 100%;
 }
 
-
 main {
     padding: 2rem;
 }
@@ -34,16 +33,16 @@ main {
     margin: 0 auto 2rem;
 }
 
-.slider img{
+.slider img {
     width: 500px;
     height: 300px;
 }
-.slider#car-page{
+.slider#car-page {
     max-width: 500px;
     margin: 0 auto 2rem;
 }
 
-.slider#car-page img{
+.slider#car-page img {
     width: 480px;
     height: 360px;
 }
@@ -63,7 +62,6 @@ footer {
     align-items: center;
     margin: 5px 85px;
     opacity: 90%;
-    
 }
 
 .dropdown-toggle {
@@ -80,6 +78,62 @@ footer {
     border-radius: 5px;
     margin-top: 5px;
 }
-.dropdown, .dropdown-menu.show{
+.dropdown,
+.dropdown-menu.show {
     border-radius: 7px;
+}
+
+.chat-container {
+    width: 60%;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #ddd;
+}
+
+#chatbox {
+    /* height: 300px; */
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.user-message,
+.assistant-message {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.user-message {
+    background-color: #a1c8eb;
+}
+
+.assistant-message {
+    background-color: #f5d4ea;
+}
+
+form {
+    display: flex;
+    justify-content: space-between;
+}
+
+form input[type="text"] {
+    width: 85%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+form button {
+    width: 13%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
 }
