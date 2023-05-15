@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
@@ -30,6 +31,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/chat', [ChatController::class, 'show'])->name('chat.show');
     Route::post('/chat', [ChatController::class, 'message'])->name('chat.message');
+    Route::get('order/confirm/{car}', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::post('/order/store/{car}', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/thankyou', function () {return view('order.thankyou');})->name('order.thankyou');   
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+
+
 });
 
 Route::middleware(['auth', 'is_admin'])->group(function () {
@@ -38,6 +46,10 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::delete('/admin/cars/delete/{car}', [CarController::class, 'destroy'])->name('admin.delete_car');
     Route::get('/admin/cars/list', [CarController::class, 'list'])->name('admin.cars_list');
     Route::get('/admin/cars/create', [CarController::class, 'create'])->name('car_create');
+    Route::post('/admin/orders/updateStatus', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+    Route::get('/admin/orders', [OrderController::class, 'list'])->name('admin.orders');
+
+
 });
 
 require __DIR__ . '/auth.php';

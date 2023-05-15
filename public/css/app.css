@@ -129,7 +129,7 @@ form input[type="text"] {
 }
 
 form button {
-    width: 13%;
+    /* width: 13%; */
     padding: 10px;
     border-radius: 10px;
     border: none;

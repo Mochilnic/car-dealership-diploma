@@ -30,6 +30,8 @@
                 <div class="col-md-4">
                     <h2>Ціна: {{ $car->price }} $</h2>
                 </div>
+                <a href="{{ route('order.confirm', $car->id) }}" class="btn btn-primary">Замовити автомобіль</a>
+
             </div>
             <div class="row mt-4">
                 <div class="col-md-6">

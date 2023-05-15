@@ -12,9 +12,14 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if (Auth::user() && Auth::user()->is_admin)
                     <h1>You're logged in as Administrator!</h1>
+                     <a href="{{ route('car_create') }}" class="btn btn-primary mt-3">Створити новий автомобіль</a>
+                     <a href="{{ route('admin.cars_list') }}" class="btn btn-secondary mt-3">Перейти до списку автомобілів</a>
+                     <a href="{{ route('admin.orders') }}" class="btn btn-success mt-3">Перейти до списку замовлень</a>
                     @else
                     <h1>You're logged in!</h1>
+                    <a href="{{ route('orders.index') }}" class="btn btn-primary">Мої замовлення</a>
                     @endif
+                    
                 </div>
             </div>
         </div>
