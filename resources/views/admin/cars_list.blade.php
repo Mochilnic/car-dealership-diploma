@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+    <a href="{{ route('dashboard') }}" class="btn btn-secondary mb-3">Назад</a>
     <h1>Список автомобілей</h1>
     <div class="row">
         @foreach ($cars as $car)

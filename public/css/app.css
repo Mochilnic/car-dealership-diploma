@@ -60,7 +60,7 @@ footer {
     right: 0;
     display: flex;
     align-items: center;
-    margin: 5px 85px;
+    margin: 5px 110px;
     opacity: 90%;
 }
 
@@ -81,6 +81,10 @@ footer {
 .dropdown,
 .dropdown-menu.show {
     border-radius: 7px;
+}
+.dropdown-menu.show .dropdown-item{
+    padding: 0.25rem 0.6rem;
+    /* text-align: center; */
 }
 
 .chat-container {
@@ -117,7 +121,7 @@ footer {
 }
 
 form {
-    display: flex;
+    /* display: flex; */
     justify-content: space-between;
 }
 

@@ -2,7 +2,10 @@
 
 @section('content')
 <div class="container">
+    <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">Назад</a>
+
     <h1>Додати автомобіль</h1>
+    
     <form action="{{ route('car_store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">

@@ -1,57 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Orders management</title>
-    @include('partials.scripts')
-</head>
+@section('title', 'Список замовлень')
 
-<body>
-    <div class="container">
-        <h1>Список замовлень</h1>
+@section('content')
 
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status')}}
-            </div>
-        @endif
+    <main>
+        <div class="container">
+            <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">Назад</a><br>
+            <strong>Список замовлень</strong> <br><br>
 
-        <table class="table table-striped mt-3">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Ім'я замовника</th>
-                    <th scope="col">Електронна пошта замовника</th>
-                    <th scope="col">Марка та модель автомобіля</th>
-                    <th scope="col">Статус замовлення</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($orders as $order)
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            <table class="table table-striped mt-3">
+                <thead>
                     <tr>
-                        <th scope="row">{{ $order->id }}</th>
-                        <td>{{ $order->user->name }}</td>
-                        <td>{{ $order->user->email }}</td>
-                        <td>{{ $order->car->make }} {{ $order->car->model }}, {{ $order->car->year }}р.</td>
-                        <td>
-                            <select class="form-select status-select" data-order-id="{{ $order->id }}">
-                                @foreach ($statuses as $status)
-                                    <option value="{{ $status }}"
-                                        {{ $order->status == $status ? 'selected' : '' }}>{{ $status }}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td><button class="btn btn-primary save-status-btn" data-order-id="{{ $order->id }}"
-                                style="display: none;">Зберегти</button></td>
+                        <th scope="col">#</th>
+                        <th scope="col">Ім'я замовника</th>
+                        <th scope="col">Електронна пошта замовника</th>
+                        <th scope="col">Марка та модель автомобіля</th>
+                        <th scope="col">Статус замовлення</th>
+                        <th scope="col"></th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach ($orders as $order)
+                        <tr>
+                            <th scope="row">{{ $order->id }}</th>
+                            <td>{{ $order->user->name }}</td>
+                            <td>{{ $order->user->email }}</td>
+                            <td>{{ $order->car->make }} {{ $order->car->model }}, {{ $order->car->year }}р.</td>
+                            <td>
+                                <select class="form-select status-select" data-order-id="{{ $order->id }}">
+                                    @foreach ($statuses as $status)
+                                        <option value="{{ $status }}"
+                                            {{ $order->status == $status ? 'selected' : '' }}>{{ $status }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td><button class="btn btn-primary save-status-btn" data-order-id="{{ $order->id }}"
+                                    style="display: none;">Зберегти</button></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </main>
+@endsection
+@section('scripts')
     <script>
         $(document).ready(function() {
             $('.status-select').on('change', function() {
@@ -77,6 +76,4 @@
             });
         });
     </script>
-</body>
-
-</html>
+@endsection

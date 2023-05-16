@@ -52,7 +52,7 @@ class OrderController extends Controller
         }
 
         $order->update(['status' => 'Відмінений']);
-
+        session()->flash('status', 'Замовлення #' . $order->id . ' відмінене');
         return redirect()->back()->with('success', 'Замовлення успішно скасоване.');
     }
     public function updateStatus(Request $request)

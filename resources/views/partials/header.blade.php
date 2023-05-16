@@ -17,6 +17,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="{{ route('profile.edit') }}">Профіль</a>
+                    <a class="dropdown-item" href="{{ route('dashboard') }}">Панель користувача</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="dropdown-item">Вийти</button>

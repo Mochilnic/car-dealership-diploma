@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="uk">
+@extends('layouts.user_app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $car->make }} {{ $car->model }} - Lev Motors</title>
-    @include('partials.scripts')
-</head>
+@section('title', $car->make . ' ' . $car->model)
 
-<body>
-    @include('partials.header')
+@section('content')
+    
     <main>
         <div class="container">
             <div class="row">
@@ -92,7 +86,8 @@
                 </div>
             </div>
         </div>
-        <!-- Вывод существующих комментариев -->
+
+        
         @foreach ($car->comments as $comment)
             <div class="container">
                 <div class="row">
@@ -119,7 +114,7 @@
             </div>
         @endforeach
 
-        <!-- Форма отправки комментария -->
+
         @if (auth()->check())
             <form action="{{ route('comments.store', $car->id) }}" method="POST">
                 @csrf
@@ -132,6 +127,9 @@
             <a href="{{ route('login') }}">Увійдіть</a> або <a href="{{ route('register') }}">зареєструйтесь</a>, щоб
             залишити коментар.
         @endif
+    </main>
+        @endsection
+        @section('scripts')
         <script>
             $(document).ready(function() {
                 $('.slider-for').slick({
@@ -144,8 +142,5 @@
                 });
             });
         </script>
-    </main>
-    @include('partials.footer')
-</body>
-
-</html>
+   
+@endsection
