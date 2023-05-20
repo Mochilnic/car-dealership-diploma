@@ -1,8 +1,10 @@
 <?php
+/** @phpcs:disable */
 
 namespace App\Http\Controllers;
 
 use App\Mail\OrderConfirmationMail;
+use App\Mail\OrderStatusUpdated;
 use App\Models\Car;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -13,14 +15,18 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = auth()->user()->orders;
+        $orders = auth()->user()->orders()->with(['car' => function ($query) {
+        $query->withTrashed();
+    }])->get();
 
         return view('order.index', ['orders' => $orders]);
     }
 
     public function list()
     {
-        $orders = Order::all();
+        $orders = Order::with(['car' => function ($query) {
+            $query->withTrashed();
+        }])->get();
         $statuses = ['В обробці', 'Прийнятий до роботи', 'Затриманий', 'Відмінений', 'Автомобіль очікує клієнта', 'Виконаний'];
 
         return view('admin.manage_orders', ['orders' => $orders, 'statuses' => $statuses]);
@@ -63,8 +69,13 @@ class OrderController extends Controller
         ]);
 
         $order = Order::find($request->order_id);
+        $oldStatus= $order->status;
         $order->status = $request->status;
         $order->save();
+
+        $car = Car::withTrashed()->find($order->car_id);
+
+        Mail::to($order->user->email)->send(new OrderStatusUpdated($order, $car, $oldStatus));
 
         return session()->flash('status', 'Статус замовлення #' . $order->id . ' оновлено на ' . $request->status);
     }

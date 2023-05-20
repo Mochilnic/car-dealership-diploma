@@ -6,8 +6,8 @@
 
     <main>
         <div class="container">
-            <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">Назад</a><br>
-            <strong>Список замовлень</strong> <br><br>
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary mb-3">Назад</a><br>
+            <h1>Список замовлень</h1>
 
             @if (session('status'))
                 <div class="alert alert-success">

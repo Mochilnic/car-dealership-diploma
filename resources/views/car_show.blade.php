@@ -3,22 +3,24 @@
 @section('title', $car->make . ' ' . $car->model)
 
 @section('content')
-    
+
     <main>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <h1>{{ $car->make }} {{ $car->model }} {{ $car->year }}</h1>
-                    <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">Назад</a>
+                    <a href="{{ route('cars.index') }}" class="btn btn-secondary mb-3">Назад</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-8">
                     <div class="slider" id="car-page">
-                        <img src="{{ asset('storage/cars/' . $car->main_image) }}" alt="Главное изображение">
-                        @foreach (json_decode($car->additional_images) as $additionalImage)
-                            <img src="{{ asset('storage/cars/' . $additionalImage) }}" alt="Дополнительное изображение">
-                        @endforeach
+                        <img src="{{ asset('storage/cars/' . $car->main_image) }}" alt="Головне зображення">
+                        @if ($car->additional_images!="null")
+                            @foreach (json_decode($car->additional_images) as $additionalImage)
+                                <img src="{{ asset('storage/cars/' . $additionalImage) }}" alt="Додаткове зображення">
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -87,22 +89,21 @@
             </div>
         </div>
 
-        
+
         @foreach ($car->comments as $comment)
             <div class="container">
                 <div class="row">
                     <div class="col-9">
                         <strong>{{ $comment->user->name }}</strong>
                         @if ($comment->user->is_admin)
-                        <span class="badge badge-secondary">адміністратор</span>
+                            <span class="badge badge-secondary">адміністратор</span>
                         @endif
                         <p>{{ $comment->body }}</p>
 
                     </div>
                     <div class="col">
                         @if (auth()->check() && auth()->user()->is_admin)
-                            <form
-                                action="{{ route('comments.destroy', ['car' => $car->id, 'comment' => $comment->id]) }}"
+                            <form action="{{ route('comments.destroy', ['car' => $car->id, 'comment' => $comment->id]) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -128,19 +129,19 @@
             залишити коментар.
         @endif
     </main>
-        @endsection
-        @section('scripts')
-        <script>
-            $(document).ready(function() {
-                $('.slider-for').slick({
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    arrows: true,
-                    autoplay: true,
-                    autoplaySpeed: 2000,
-                    adaptiveHeight: true
-                });
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.slider-for').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: true,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                adaptiveHeight: true
             });
-        </script>
-   
+        });
+    </script>
+
 @endsection
