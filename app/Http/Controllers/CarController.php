@@ -11,11 +11,30 @@ class CarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cars = Car::all();
-        return view('catalog', ['cars' => $cars]);
+        $query = Car::query();
+
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('model', 'like', "%{$search}%")
+                ->orWhere('make', 'like', "%{$search}%");
+        }
+
+        if ($request->has('sort') && $request->has('order')) {
+            $sort = $request->get('sort');
+            $order = $request->get('order');
+
+            if (in_array($sort, ['price', 'engine_power']) && in_array($order, ['asc', 'desc'])) {
+                $query->orderBy($sort, $order);
+            }
+        }
+
+        $cars = $query->paginate(15);
+
+        return view('catalog', compact('cars'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -47,7 +66,7 @@ class CarController extends Controller
             'additional_images.*' => 'image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-    
+
         if ($request->hasFile('main_image')) {
             $mainImage = $request->file('main_image');
             $mainImageName = time() . '_' . $mainImage->getClientOriginalName();
@@ -56,7 +75,7 @@ class CarController extends Controller
             $mainImageName = null;
         }
 
-       
+
         if ($request->hasFile('additional_images')) {
             $additionalImages = $request->file('additional_images');
             $additionalImageNames = [];
@@ -133,9 +152,9 @@ class CarController extends Controller
             'additional_images.*' => 'image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        
+
         if ($request->hasFile('main_image')) {
-            
+
             Storage::delete('public/cars/' . $car->main_image);
 
             $mainImage = $request->file('main_image');
@@ -150,7 +169,7 @@ class CarController extends Controller
             $currentAdditionalImages[$i] = substr($currentAdditionalImages[$i], 1, -1);
         }
 
-        
+
         if ($request->deleted_additional_images) {
             $deletedImages = explode(',', $request->input('deleted_additional_images'));
             $currentAdditionalImages = array_diff($currentAdditionalImages, $deletedImages);
@@ -171,7 +190,7 @@ class CarController extends Controller
             'additional_images' => implode(',', $imagesToAdd),
         ]);
 
-       
+
         $existingImages = json_decode($car->additional_images, true);
         $additionalImages = $request->file('additional_images');
 
@@ -213,15 +232,15 @@ class CarController extends Controller
     {
 
         Storage::delete('public/cars/' . $car->main_image);
-        
-        if ($car->additional_images!="null") {
+
+        if ($car->additional_images != "null") {
             foreach (json_decode($car->additional_images) as $additionalImage) {
                 Storage::delete('public/cars/' . $additionalImage);
             }
         }
 
         $car->comments()->delete();
-        
+
         $car->delete();
 
         return redirect()->route('admin.cars_list')->with('success', 'Автомобіль видалений успішно');
@@ -231,6 +250,26 @@ class CarController extends Controller
     {
         $cars = Car::all();
         return view('admin.cars_list', ['cars' => $cars]);
+    }
+
+    public function options(Car $car)
+    {
+        return view('admin.options', ['car' => $car]);
+    }
+
+    public function storeOption(Request $request, Car $car)
+    {
+        $request->validate([
+            'category' => 'required',
+            'name' => 'required',
+            'price' => 'required|numeric',
+        ]);
+
+        $car->options()->create($request->only('category', 'name', 'price'));
+
+        session()->flash('status', 'До категорії ' . $request->input('category') . ' додана опція ' . $request->input('name') . ' за ' . $request->input('price') . ' $');
+
+        return redirect()->route('admin.cars.options', $car);
     }
 
 

@@ -16,6 +16,11 @@ class Car extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function options()
+    {
+        return $this->hasMany(Option::class);
+    }
+
 
     protected $fillable = [
         'make',

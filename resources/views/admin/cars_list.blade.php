@@ -17,6 +17,8 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Видалити</button>
                         </form>
+                        <a href="{{ route('admin.cars.options', $car) }}" class="btn btn-warning">Опції</a>
+
                     </div>
                 </div>
             </div>

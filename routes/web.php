@@ -15,6 +15,7 @@ Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
 Route::resource('cars', CarController::class);
 Route::post('/cars', [CarController::class, 'store'])->name('car_store')->middleware(['auth', 'is_admin']);
+Route::get('/cars/search', [CarController::class, 'search'])->name('cars.search');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -48,6 +49,8 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/admin/cars/create', [CarController::class, 'create'])->name('car_create');
     Route::post('/admin/orders/updateStatus', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     Route::get('/admin/orders', [OrderController::class, 'list'])->name('admin.orders');
+    Route::get('/admin/cars/{car}/options', [CarController::class, 'options'])->name('admin.cars.options');
+    Route::post('/admin/cars/{car}/options', [CarController::class, 'storeOption']);
 
 
 });
