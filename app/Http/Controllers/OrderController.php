@@ -39,11 +39,11 @@ class OrderController extends Controller
 
     public function store(Request $request, Car $car)
     {
-        // Создание нового заказа
+        
         $order = new Order();
         $order->user_id = auth()->user()->id;
         $order->car_id = $car->id;
-        $order->status = 'В обробці'; // default status
+        $order->status = 'В обробці';
 
         $order->save();
 

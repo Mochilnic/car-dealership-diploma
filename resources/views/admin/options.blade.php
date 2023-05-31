@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+main{
+    margin-left: 4%;
+    margin-top: 2%;
+}
+.mb-3{
+    padding-top: 1%;
+}
+</style>
+<main>
     <h1>Додати опцію для {{ $car->make }} {{ $car->model }}</h1>
     <form method="POST" action="{{ route('admin.cars.options', $car) }}">
         @csrf
@@ -33,4 +43,5 @@
         </div> 
         <button type="submit" class="btn btn-primary">Додати опцію</button>
     </form>
+</main>
 @endsection
