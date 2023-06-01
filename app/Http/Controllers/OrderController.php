@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\SendNotification;
+use Illuminate\Notifications\AnonymousNotifiable;
 
 class OrderController extends Controller
 {
@@ -40,7 +42,7 @@ class OrderController extends Controller
         $car = session('car');
         $totalPrice = session('total_price');
         $options = Option::whereIn('id', session('option_ids'))->get();
-        
+
         return view('order.confirm', compact('car', 'totalPrice', 'options'));
     }
 
@@ -59,8 +61,8 @@ class OrderController extends Controller
             'total_price' => $totalPrice,
             'option_ids' => $optionIds,
         ]);
-        
-        return redirect()->route('order.confirm',$car);
+
+        return redirect()->route('order.confirm', $car);
     }
 
     public function store()
@@ -75,10 +77,13 @@ class OrderController extends Controller
         ]);
 
         $order->total_price = $totalPrice;
+        
         $order->save();
         $order->options()->attach($optionIds);
 
         Mail::to($order->user->email)->send(new OrderConfirmationMail($order));
+        $notifiable = (new AnonymousNotifiable)->route('telegram', '-1001927227945');
+        $notifiable->notify(new SendNotification($order));
         session()->forget(['car', 'total_price', 'option_ids']);
         return redirect()->route('order.thankyou')->with('success', 'Ваше замовлення було прийнято');
     }

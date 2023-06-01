@@ -39,7 +39,7 @@
                             <td>{{ $order->user->email }}</td>
                             <td>{{ $order->car->make }} {{ $order->car->model }}, {{ $order->car->year }}р.</td>
                             <td>
-                                @if ($order->options()->get())
+                                @if ($order->options()->get()!="[]")
                                     @foreach ($order->options()->get() as $option)
                                         <li><strong>{{ $option->displayName() }}</strong>:
                                             {{ $option->name }}</li>
