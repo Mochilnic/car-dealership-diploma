@@ -3,7 +3,11 @@
 @section('title', 'Список замовлень')
 
 @section('content')
-
+    <style>
+        li {
+            list-style-type: none;
+        }
+    </style>
     <main>
         <div class="container">
             <a href="{{ route('dashboard') }}" class="btn btn-secondary mb-3">Назад</a><br>
@@ -15,13 +19,14 @@
                 </div>
             @endif
 
-            <table class="table table-striped mt-3">
+            <table class="table table-striped mt-3 col-12">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Ім'я замовника</th>
                         <th scope="col">Електронна пошта замовника</th>
                         <th scope="col">Марка та модель автомобіля</th>
+                        <th scope="col" id="options">Обрані опції</th>
                         <th scope="col">Статус замовлення</th>
                         <th scope="col"></th>
                     </tr>
@@ -33,6 +38,16 @@
                             <td>{{ $order->user->name }}</td>
                             <td>{{ $order->user->email }}</td>
                             <td>{{ $order->car->make }} {{ $order->car->model }}, {{ $order->car->year }}р.</td>
+                            <td>
+                                @if ($order->options()->get())
+                                    @foreach ($order->options()->get() as $option)
+                                        <li><strong>{{ $option->displayName() }}</strong>:
+                                            {{ $option->name }}</li>
+                                    @endforeach
+                                @else
+                                    -
+                                @endif
+                            </td>
                             <td>
                                 <select class="form-select status-select" data-order-id="{{ $order->id }}">
                                     @foreach ($statuses as $status)

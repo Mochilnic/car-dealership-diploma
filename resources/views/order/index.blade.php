@@ -3,11 +3,27 @@
 @section('title', 'Ваші замовлення')
 
 @section('content')
+<style>
+    table {
+        table-layout: fixed
+    }
 
+    th {
+        width: 20%;
+    }
+
+    th#options {
+        width: 30%;
+    }
+
+    li {
+        list-style-type: none;
+    }
+</style>
     <main>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header text-center">
                             <h3>Мої замовлення</h3>
@@ -27,8 +43,10 @@
                                             <th scope="col">Номер замовлення</th>
                                             <th scope="col">Дата замовлення</th>
                                             <th scope="col">Автомобіль</th>
-                                            <th scope="col">Ціна</th>
+                                            <th scope="col" id="options">Опції</th>
+                                            <th scope="col">Вартість замовлення</th>
                                             <th scope="col">Статус</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -38,7 +56,17 @@
                                                 <td>{{ $order->created_at }}</td>
                                                 <td>{{ $order->car->make }} {{ $order->car->model }},
                                                     {{ $order->car->year }}р.</td>
-                                                <td>{{ $order->car->price }} $</td>
+                                                    <td>
+                                                        @if ($order->options()->get()!="[]")
+                                                            @foreach ($order->options()->get() as $option)
+                                                                <li><strong>{{ $option->displayName() }}</strong>:
+                                                                    {{ $option->name }} </li>
+                                                            @endforeach
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $order->total_price }} $</td>
                                                 <td>{{ $order->status }}</td>
                                                 @if ($order->status !== 'Відмінений' && $order->status !== 'Виконаний')
                                                     <td>

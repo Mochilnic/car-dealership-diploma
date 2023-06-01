@@ -20,4 +20,9 @@ class Order extends Model
     {
         return $this->belongsTo(Car::class);
     }
+
+    public function options()
+    {
+        return $this->belongsToMany(Option::class, 'order_option');
+    }
 }

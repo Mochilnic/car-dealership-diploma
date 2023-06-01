@@ -272,6 +272,26 @@ class CarController extends Controller
         return redirect()->route('admin.cars.options', $car);
     }
 
+    public function configure(Car $car)
+    {
+        session()->forget(['car', 'total_price', 'option_ids']);
+        
+        if ($car->options->isEmpty()) {
+            session([
+                'car' => $car,
+                'total_price' => $car->price,
+                'option_ids' => [],
+            ]);
+
+            return redirect()->route('order.confirm', $car);
+        } else {
+            $options = $car->options()->get()->groupBy('category');
+
+            return view('configurations', ['car' => $car, 'options' => $options]);
+        }
+    }
+
+
 
     public function __construct()
     {

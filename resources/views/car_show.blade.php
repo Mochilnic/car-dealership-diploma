@@ -16,7 +16,7 @@
                 <div class="col-md-8">
                     <div class="slider" id="car-page">
                         <img src="{{ asset('storage/cars/' . $car->main_image) }}" alt="Головне зображення">
-                        @if ($car->additional_images!="null")
+                        @if ($car->additional_images != 'null')
                             @foreach (json_decode($car->additional_images) as $additionalImage)
                                 <img src="{{ asset('storage/cars/' . $additionalImage) }}" alt="Додаткове зображення">
                             @endforeach
@@ -24,9 +24,20 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <h2>Ціна: {{ $car->price }} $</h2>
+                    @if ($car->options->isEmpty())
+                        <h2>Ціна: {{ $car->price }} $</h2>
+                    @else
+                        <h2>Ціна від {{ $car->price }} $</h2>
+                        <p>(залежить від комплектації)</p>
+                    @endif
                 </div>
-                <a href="{{ route('order.confirm', $car->id) }}" class="btn btn-primary">Замовити автомобіль</a>
+                {{-- <a href="{{ route('cars.configure', $car->id) }}" class="btn btn-primary">Замовити автомобіль</a> --}}
+                @if ($car->options->isEmpty())
+                    <a href="{{ route('cars.configure', $car->id) }}"
+                        class="btn btn-primary">{{ $car->options->isEmpty() ? 'Замовити автомобіль' : 'Конфігурувати автомобіль' }}</a>
+                @else
+                    <a href="{{ route('cars.configure', $car->id) }}" class="btn btn-primary">Конфігурувати автомобіль</a>
+                @endif
 
             </div>
             <div class="row mt-4">

@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/thankyou', function () {return view('order.thankyou');})->name('order.thankyou');   
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::get('/cars/{car}/configure', [CarController::class, 'configure'])->name('cars.configure');
+    Route::post('/order/{car}/configure', [OrderController::class, 'configure'])->name('order.configure');
 
 
 });

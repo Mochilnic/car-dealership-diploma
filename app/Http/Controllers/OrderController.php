@@ -1,4 +1,5 @@
 <?php
+
 /** @phpcs:disable */
 
 namespace App\Http\Controllers;
@@ -6,8 +7,10 @@ namespace App\Http\Controllers;
 use App\Mail\OrderConfirmationMail;
 use App\Mail\OrderStatusUpdated;
 use App\Models\Car;
+use App\Models\Option;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -16,8 +19,8 @@ class OrderController extends Controller
     public function index()
     {
         $orders = auth()->user()->orders()->with(['car' => function ($query) {
-        $query->withTrashed();
-    }])->get();
+            $query->withTrashed();
+        }])->get();
 
         return view('order.index', ['orders' => $orders]);
     }
@@ -34,23 +37,53 @@ class OrderController extends Controller
 
     public function confirm(Car $car)
     {
-        return view('order.confirm', compact('car'));
+        $car = session('car');
+        $totalPrice = session('total_price');
+        $options = Option::whereIn('id', session('option_ids'))->get();
+        
+        return view('order.confirm', compact('car', 'totalPrice', 'options'));
     }
 
-    public function store(Request $request, Car $car)
+    public function configure(Request $request, Car $car)
     {
-        
-        $order = new Order();
-        $order->user_id = auth()->user()->id;
-        $order->car_id = $car->id;
-        $order->status = 'В обробці';
+        $request->validate([
+            'options' => 'nullable|array',
+            'options.*' => 'exists:options,id',
+        ]);
 
+        $optionIds = Arr::flatten($request->options);
+        $totalPrice = Car::find($request->car_id)->price + Option::whereIn('id', $optionIds)->sum('price');
+
+        session([
+            'car' => $car,
+            'total_price' => $totalPrice,
+            'option_ids' => $optionIds,
+        ]);
+        
+        return redirect()->route('order.confirm',$car);
+    }
+
+    public function store()
+    {
+        $car = session('car');
+        $totalPrice = session('total_price');
+        $optionIds = session('option_ids');
+
+        $order = new Order([
+            'user_id' => Auth::id(),
+            'car_id' => $car->id,
+        ]);
+
+        $order->total_price = $totalPrice;
         $order->save();
+        $order->options()->attach($optionIds);
 
         Mail::to($order->user->email)->send(new OrderConfirmationMail($order));
-
+        session()->forget(['car', 'total_price', 'option_ids']);
         return redirect()->route('order.thankyou')->with('success', 'Ваше замовлення було прийнято');
     }
+
+
     public function cancel(Order $order)
     {
         if (Auth::id() !== $order->user_id) {
@@ -69,7 +102,7 @@ class OrderController extends Controller
         ]);
 
         $order = Order::find($request->order_id);
-        $oldStatus= $order->status;
+        $oldStatus = $order->status;
         $order->status = $request->status;
         $order->save();
 

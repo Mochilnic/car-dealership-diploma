@@ -49,13 +49,28 @@
             <td>Бренд:</td>
             <td>{{ $order->car->make }}</td>
         </tr>
+        @if ($order->options->count() > 0)
+        <tr>
+            <td>Обрані опції:</td>
+            <td>
+            <ul>
+                @foreach ($order->options as $option)
+                    <li>{{ $option->displayName() }}: {{ $option->name }} ({{ $option->price }}$)</li>
+                @endforeach
+            </ul>
+        </td>
+        </tr>
+        @endif
+
+    
         <tr>
             <td>Ціна:</td>
-            <td>{{ $order->car->price }} $</td>
+            <td>{{ $order->total_price }} $</td>
         </tr>
+        <tr><td>Статус замовлення:</td> <td>В обробці</td></tr>
     </table>
 
-    <p>Статус замовлення: {{ $order->status }}</p>
+    
 
     <p>Ми зв'яжемося з Вами найближчим часом для підтвердження замовлення.</p>
 </body>

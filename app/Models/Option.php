@@ -15,4 +15,9 @@ class Option extends Model
     {
         return $this->belongsTo(Car::class);
     }
+
+    public function displayName()
+    {
+        return $this->belongsTo(OptionCategory::class, 'category', 'system_name')->first()->display_name;
+    }
 }
