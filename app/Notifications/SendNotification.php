@@ -33,34 +33,53 @@ class SendNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
+    // public function toTelegram($notifiable)
+    // {
+    //     $options = $this->order->options()->get();
+
+    //     $optionStrings = [];
+    //     foreach ($options as $option) {
+    //         $optionStrings[] = $option->displayName() . ': ' . $option->name;
+    //     }
+
+    //     $optionList = implode(', ', $optionStrings);
+
+    //     if ($this->order->options()->get()!="[]"){
+    //         return TelegramMessage::create()
+    //         ->to('-1001927227945')
+    //         ->line('❗️ Нове замовлення #'.$this->order->id.' ❗️')
+    //         ->line('Користувач ' . $this->order->user->name . ' залишив замовлення на ' . $this->order->car->make . ' ' . $this->order->car->model)
+    //         ->line('Сума замовлення склала: ' . $this->order->total_price.'$')
+    //         ->line('Додані опції: '.$optionList);
+    //     }               
+    //     else{
+    //         return TelegramMessage::create()
+    //         ->to('-1001927227945')
+    //         ->line('❗️ Нове замовлення #'.$this->order->id.' ❗️')
+    //         ->line('Користувач ' . $this->order->user->name . ' залишив замовлення на ' . $this->order->car->make . ' ' . $this->order->car->model)
+    //         ->line('Сума замовлення склала: ' . $this->order->total_price.'$');
+            
+    //     }
     public function toTelegram($notifiable)
     {
         $options = $this->order->options()->get();
-
-        $optionStrings = [];
-        foreach ($options as $option) {
-            $optionStrings[] = $option->displayName() . ': ' . $option->name;
-        }
-
-        $optionList = implode(', ', $optionStrings);
-
-        if ($this->order->options()->get()!="[]"){
-            return TelegramMessage::create()
+    
+        $telegramMessage = TelegramMessage::create()
             ->to('-1001927227945')
-            ->line('Нове замовлення!')
-            ->line('Користувач ' . $this->order->user->name . ' залишив замовлення на ' . $this->order->car->make . ' ' . $this->order->car->model)
-            ->line('Сума замовлення склала: ' . $this->order->total_price.'$')
-            ->line('Додані опції: '.$optionList);
-        }               
-        else{
-            return TelegramMessage::create()
-            ->to('-1001927227945')
-            ->line('Нове замовлення!')
-            ->line('Користувач ' . $this->order->user->name . ' залишив замовлення на ' . $this->order->car->make . ' ' . $this->order->car->model)
-            ->line('Сума замовлення склала: ' . $this->order->total_price.'$');
-            
+            ->line('❗️ *Нове замовлення #' . $this->order->id . '* ❗️')
+            ->line('*Користувач:* ' . $this->order->user->name)
+            ->line('*Замовлення на:* ' . $this->order->car->make . ' ' . $this->order->car->model)
+            ->line('*Сума замовлення склала:* ' . $this->order->total_price . '$');
+    
+        if ($this->order->options()->get()!="[]") {
+            $telegramMessage->line('*Додані опції:*');
+            foreach ($options as $option) {
+                $telegramMessage->line('• ' . $option->displayName() . ': ' . $option->name);
+            }
         }
-
+    
+        return $telegramMessage;
+    
         
     }
 

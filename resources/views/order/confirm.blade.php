@@ -32,7 +32,7 @@
                                 <h5>Вибрані опції:</h5>
                                 <ul>
                                     @foreach ($options as $option)
-                                        <li>{{ $option->category }}: {{ $option->name }} ({{ $option->price }}$)</li>
+                                        <li>{{ $option->displayName() }}: {{ $option->name }} ({{ $option->price }}$)</li>
                                     @endforeach
                                 </ul>
                             @endif
